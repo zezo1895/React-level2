@@ -1,48 +1,34 @@
-
 import "./App.css";
 import "../src/theme.css";
-import { useReducer } from "react";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
-const start={name:"ZIAD",age:20,theme:"light"}
-
-
-const reducer = (state ,action) => {
-  switch(action.type){
-  case "CHANGE":
-  return{...state,name:action.NEW};
-  case "CHANGE_AGE":
-    return{...state,age:action.NEWA}
-  case"TOO":
-  return{...state,theme:action.NEW}
-  case"THEME":
-  return{...state,theme:action.NEW}
-default:
-  return state
-
-  }
-}
-
-
+import Context from "./context/Context";
 
 function App() {
-  const [all, dispatch] = useReducer(reducer, start);
-
+  const { name, age, theme, changeall, changetheme, toogle } =
+    useContext(Context);
   return (
-    <div className={`App ${all.theme}`}>
+    <div className={`App ${theme}`}>
+      <Link to="/layout">Layout</Link>
       <button
-        style={{ marginBottom: "20px" }}
         onClick={() => {
-          dispatch({type:"TOO",NEW:all.theme=="light" ? "dark":"light"})
+          toogle();
         }}
+        style={{ marginBottom: "20px" }}
       >
         Toogle
       </button>
 
       <div>
-        <input   onChange={() => {
-          dispatch({type:"TOO",NEW:all.theme=="light" ? "dark":"light"})
-        }}
-         type="checkbox" className="checkbox" id="checkbox" />
+        <input
+          onChange={() => {
+            toogle();
+          }}
+          type="checkbox"
+          className="checkbox"
+          id="checkbox"
+        />
         <label htmlFor="checkbox" className="checkbox-label">
           <i className="fas fa-moon" />
           <i className="fas fa-sun" />
@@ -51,42 +37,38 @@ function App() {
       </div>
       <div>
         <button
-        onClick={() => {
-          dispatch({type:"THEME",NEW:"pink"})
-        }}
+          onClick={() => {
+            changetheme("pink");
+          }}
           style={{ marginRight: "15px" }}
         >
           Pink
         </button>
         <button
           onClick={() => {
-            dispatch({type:"THEME",NEW:"dark"})
+            changetheme("dark");
           }}
-          
           style={{ marginRight: "15px" }}
         >
           Dark
         </button>
         <button
-          style={{ marginRight: "15px" }}
-        
           onClick={() => {
-            dispatch({type:"THEME",NEW:"light"})
+            changetheme("light");
           }}
+          style={{ marginRight: "15px" }}
         >
           light
         </button>
       </div>
       <h1>
-        My name is {all.name}  ,My age is {all.age}
+        My name is {name} ,My age is {age}{" "}
       </h1>
       <div className="card">
         <button
-        onClick={() => {
-          dispatch({type:"CHANGE",NEW:"ELZOZ",NEWA:21})
-          dispatch({type:"CHANGE_AGE",NEWA:21})
-        }}
-        
+          onClick={() => {
+            changeall();
+          }}
         >
           Change name
         </button>
